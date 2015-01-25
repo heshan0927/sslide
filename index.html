@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sSlide Demo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <script src="js/zepto.js" type="text/javascript"></script>
+    <script src="js/sSlide.js" type="text/javascript"></script>
+</head>
+<body>
+<div>
+	<ul id="slideList">
+		<li class="page page1">1</li>
+        <li class="page page2">2</li>
+        <li class="page page3">3</li>
+		<li class="page page4">4</li>
+    </ul>
+</div>
+<script>
+$(function() {
+    $('#slideList').sSlide({
+        direction: 'Y'
+    });
+    $(".page1").css('background-image', 'url(img/1.jpg)');
+    $(".page2").css('background-image', 'url(img/2.jpg)');
+    $(".page3").css('background-image', 'url(img/3.jpg)');
+    $(".page4").css('background-image', 'url(img/4.jpg)');
+});
+</script>
+</body>
+</html>

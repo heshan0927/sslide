@@ -1,0 +1,55 @@
+@charset "utf-8";
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu
+{ margin:0; padding:0; }
+body { font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif; font-size: 12px; }
+a { text-decoration:none; }
+img { border: none; }
+.rel { position: relative; }
+.abs { position: absolute; }
+.fl { float: left; }
+.fr { float: right; }
+ul li { list-style: none; }
+.clr { line-height: 0; height: 0; clear: both; font-size: 0; overflow: hidden}
+.clearfix:after { display: block; height: 0; visibility: hidden; clear: both; content: "."; }
+.no_select { -moz-user-select:none; -webkit-user-select:none; user-select:none;}
+html { -webkit-text-size-adjust: none; } /* 禁用iPhone中Safari的字号自动调整 */
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section { display: block;} /* 设置HTML5元素为块 */
+img { max-width: 100%; height: auto; }/* 设置图片视频等自适应调整 */
+strong, span,label { display: inline-block; vertical-align: middle; }
+select { -webkit-appearance: none; line-height: 24px; border-radius: 0; /* mobile-select设置*/ }
+.hide { display: none; }
+
+
+.page {background-size:100% 100%;background-repeat:no-repeat;position: relative;width: 100%;}
+.up_arrow { z-index: 30;width: 40px; height: auto; position: absolute; left: 50%; margin-left: -20px;bottom: 5px; -webkit-transform: translate3d(0,0,0); -webkit-animation: up_arrow 1.5s ease-out infinite;}
+.arrow {
+	z-index: 30;
+	width: 40px;
+	height: 11px;
+	position: absolute;
+	margin-left: -20px;
+	background-image: url(../img/down_arrow.png);
+	background-size: contain;
+	border: 0px;
+	-webkit-transform: translate3d(0,0,0) rotate(90deg);
+	-webkit-animation: page_arrow 1.5s ease-out infinite;
+}
+.arrow.up {
+	left: 50%;
+	top: 5%;
+}
+.arrow.down {
+	left: 50%;
+	bottom: 5%;
+}
+.arrow.left {
+	left: 5%;
+	bottom: 50%;
+}
+.arrow.right {
+	right: 5%;
+	bottom: 50%;
+}
+@-webkit-keyframes page_arrow {0% { -webkit-transform: translateY(0); opacity: 0.6; } 40% { -webkit-transform: translateY(-50%); opacity: 1;} 100% { -webkit-transform: translateY(0); opacity: 0; } }
+@keyframes page_arrow {0% { -webkit-transform: translateY(0); opacity: 0.6; } 40% { -webkit-transform: translateY(-50%); opacity: 1;} 100% { -webkit-transform: translateY(0); opacity: 0; } }
+.x {float: left;}
