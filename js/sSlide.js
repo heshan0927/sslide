@@ -2,7 +2,7 @@
     $.extend($.fn, {
         sSlide: function(options) {
             var defaults = {
-                slideElem: 'li',   // 
+                slideElem: 'li',   //
                 minMove: 30,
                 moveSpeed: 300,
                 arrow: true,
@@ -80,7 +80,10 @@
                         flipPage(1);
                     } else if(moveSpace > minMove){ // move up
                         flipPage(-1);
-                        $(".page").eq(curIndex == 0 ? slidesLen : curIndex).find(".animated").addClass("in");
+                    }
+                    $(".page").eq(curIndex == 0 ? slidesLen : curIndex).find(".animated").addClass("in");
+                    if (curIndex == slidesLen + 1) {
+                      $(".page").eq(1).find(".animated").addClass("in");
                     }
                     offset = -curIndex * movement;
                     doTransform(sSlideObj, offset, moveSpeed);
@@ -119,7 +122,7 @@
                     sSlideObj.after('<img class="arrow right">');
                 } else if (direction == 'Y') {
                     //sSlideObj.after('<img class="arrow up">');
-                    sSlideObj.after('<img class="arrow down">');                
+                    sSlideObj.after('<img class="arrow down">');
                 }
             }
 
