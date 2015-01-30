@@ -98,6 +98,13 @@
                             $(".page").find(".animated").removeClass("in");
                             $(".page").eq(curIndex).find(".animated").addClass("in");
                         }
+                        // Hide arrows
+                        if (arrow && curIndex == slidesLen - 1) {
+                            $('.sslide-wrapper .arrow.down').hide();
+                            $('.sslide-wrapper .arrow.right').hide();
+                        } else if (arrow && curIndex == 0) {
+                            $('.sslide-wrapper .arrow.left ').hide();
+                        }
                     }
                     offset = -curIndex * movement;
                     doTransform(sSlideObj, offset, moveSpeed);
