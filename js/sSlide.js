@@ -6,7 +6,8 @@
                 minMove: 30,
                 moveSpeed: 300,
                 arrow: true,
-                direction: 'X'  // 左右: X, 上下: Y
+                direction: 'X',  // 左右: X, 上下: Y
+                loop: false
             };
             var bodyWidth = document.documentElement.clientWidth;
             var bodyHeight = document.documentElement.clientHeight;
@@ -18,10 +19,11 @@
             var moveSpeed   = settings.moveSpeed;
             var direction   = settings.direction;
             var arrow       = settings.arrow;
-            var curIndex    = 1;
+            var loop        = settings.loop;
             var movement    = direction == 'X' ? bodyWidth : bodyHeight;
-            var fullWidth   = direction == 'X' ? bodyWidth * (slidesLen + 2): bodyWidth;
-            var fullHeight  = direction == 'X' ? bodyHeight : bodyHeight * (slidesLen + 2);
+            var fullWidth   = direction == 'X' ? bodyWidth * (slidesLen + (loop ? 2 : 0)): bodyWidth;
+            var fullHeight  = direction == 'X' ? bodyHeight : bodyHeight * (slidesLen + (loop ? 2 : 0));
+            var curIndex    = loop ? 1 : 0;
 
             var translateStr = function(offset) {
                 var str;
@@ -40,18 +42,22 @@
                 if (curIndex > slidesLen + 1) {
                     curIndex = 2;
                 } else if (curIndex < 0) {
-                    curIndex = slidesLen - 1;
+                    curIndex = loop ? slidesLen - 1 : 0;
+                } else if (curIndex == slidesLen) {
+                    curIndex = loop ? curIndex : curIndex - dir;
                 }
             }
 
             var doTransform = function(obj, offset, speed){
                 sSlideObj.animate({"-webkit-transform": translateStr(offset)}, speed, 'ease', function() {
-                    if (curIndex == slidesLen +　1) {
-                        sSlideObj.css({"-webkit-transform": translateStr(-movement)});
-                        curIndex = 1;
-                    } else if (curIndex == 0) {
-                        sSlideObj.css({"-webkit-transform": translateStr(-slidesLen * movement)});
-                        curIndex = slidesLen;
+                    if (loop) {
+                        if (curIndex == slidesLen +　1) {
+                            sSlideObj.css({"-webkit-transform": translateStr(-movement)});
+                            curIndex = 1;
+                        } else if (curIndex == 0) {
+                            sSlideObj.css({"-webkit-transform": translateStr(-slidesLen * movement)});
+                            curIndex = slidesLen;
+                        }
                     }
                 });
             };
@@ -75,31 +81,46 @@
                     sSlideObj.css({'-webkit-transform': translateStr(offset), '-webkit-transition':'ms linear'});
                 },
                 end: function(e){
-                    $(".page").find(".animated").removeClass("in");
-                    if (moveSpace < -minMove){ // move down
+                    var oldIndex = curIndex;
+                    if (moveSpace < -minMove) { // move down
                         flipPage(1);
                     } else if(moveSpace > minMove){ // move up
                         flipPage(-1);
                     }
-                    $(".page").eq(curIndex == 0 ? slidesLen : curIndex).find(".animated").addClass("in");
-                    if (curIndex == slidesLen + 1) {
-                      $(".page").eq(1).find(".animated").addClass("in");
+                    if (loop) {
+                        $(".page").find(".animated").removeClass("in");
+                        $(".page").eq(curIndex == 0 ? slidesLen : curIndex).find(".animated").addClass("in");
+                        if (curIndex == slidesLen + 1) {
+                            $(".page").eq(1).find(".animated").addClass("in");
+                        }
+                    } else {
+                        if (curIndex != oldIndex && curIndex >= 0 && curIndex < slidesLen) {
+                            $(".page").find(".animated").removeClass("in");
+                            $(".page").eq(curIndex).find(".animated").addClass("in");
+                        }
                     }
+                    if (curIndex==slidesLen-1) {
+                        $(".up_arrow").hide();
+                    } else {
+                        $(".up_arrow").show();
+                    };
                     offset = -curIndex * movement;
                     doTransform(sSlideObj, offset, moveSpeed);
                     moveSpace = 0;
                 }
             };
 
-            // init clone
-            var startPoint, nowPoint, moveSpace;
-            var cloneHead = $('.page').eq(0).clone().addClass('clone');
-            cloneHead.appendTo(sSlideObj.selector);
-            var cloneTail = $('.page').eq(slidesLen - 1).clone().addClass('clone');
-            cloneTail.prependTo(sSlideObj.selector);
+            if (loop) {
+                // init clone
+                var startPoint, nowPoint, moveSpace;
+                var cloneHead = $('.page').eq(0).clone().addClass('clone');
+                cloneHead.appendTo(sSlideObj.selector);
+                var cloneTail = $('.page').eq(slidesLen - 1).clone().addClass('clone');
+                cloneTail.prependTo(sSlideObj.selector);
+            }
 
             sSlideObj.css({
-                "-webkit-transform": translateStr(-movement),
+                "-webkit-transform": translateStr(loop ? -movement : 0),
                 position: 'relative',
                 width: fullWidth,
                 height: fullHeight
@@ -118,11 +139,11 @@
 
             if (arrow) {
                 if (direction == 'X') {
-                    sSlideObj.after('<img class="arrow left">');
+                    //sSlideObj.after('<img class="arrow left">');
                     sSlideObj.after('<img class="arrow right">');
                 } else if (direction == 'Y') {
                     //sSlideObj.after('<img class="arrow up">');
-                    sSlideObj.after('<img class="arrow down">');
+                    sSlideObj.after('<img src="img/down_arrow.png" class="up_arrow">');
                 }
             }
 
@@ -140,6 +161,7 @@
             slides.bind('touchstart',touchEvents.start);
             slides.bind('touchmove',touchEvents.move);
             slides.bind('touchend',touchEvents.end);
+            $("#slideList li").eq(curIndex).find(".animated").addClass("in");
         }
     });
 })(Zepto);
