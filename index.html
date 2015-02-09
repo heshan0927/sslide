@@ -24,7 +24,8 @@
 <script>
 $(function() {
     $('#slideList').sSlide({
-        direction: 'Y'
+        direction: 'Y',
+        skipSelectors: ['canvas', 'a img']
     });
     $(".page1").css('background-image', 'url(img/1.jpg)');
     $(".page2").css('background-image', 'url(img/2.jpg)');

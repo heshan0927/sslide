@@ -7,7 +7,8 @@
                 moveSpeed: 300,
                 arrow: true,
                 direction: 'X',  // 左右: X, 上下: Y
-                loop: false
+                loop: false,
+                skipSelectors: []   // 如果在这些元素上点击，则不执行slide
             };
             var bodyWidth = document.documentElement.clientWidth;
             var bodyHeight = document.documentElement.clientHeight;
@@ -24,6 +25,7 @@
             var fullWidth   = direction == 'X' ? bodyWidth * (slidesLen + (loop ? 2 : 0)): bodyWidth;
             var fullHeight  = direction == 'X' ? bodyHeight : bodyHeight * (slidesLen + (loop ? 2 : 0));
             var curIndex    = loop ? 1 : 0;
+            var isMoving    = false;
 
             var translateStr = function(offset) {
                 var str;
@@ -62,25 +64,35 @@
                 });
             };
             var touchEvents = {
-                start: function(e){
-                    if ( $(e.target).is('a[href]') ) {
-                       window.location.href = $(e.target).attr('href');
-                    } else {
-                        startPoint = getPoint(e.touches[0]);
-                        curIndex = $(this).index();
-                    }
+                start: function(e) {
+                    var selectors = settings.skipSelectors;
+                    for (var idx in selectors) {
+                        if ($(e.target).is(selectors[idx])) {
+                            return true;
+                        }
+                    };
                     startPoint = getPoint(e.touches[0]);
                     curIndex = $(this).index();
+                    startPoint = getPoint(e.touches[0]);
+                    curIndex = $(this).index();
+                    isMoving = true;
+                    return false;
                 },
                 move: function(e){
-                    e.stopPropagation();
-                    e.preventDefault();
-                    nowPoint   = getPoint(e.touches[0]);
-                    moveSpace  = nowPoint - startPoint;
-                    var offset = -curIndex * movement + moveSpace;
-                    sSlideObj.css({'-webkit-transform': translateStr(offset), '-webkit-transition':'ms linear'});
+                    if (isMoving) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        nowPoint   = getPoint(e.touches[0]);
+                        moveSpace  = nowPoint - startPoint;
+                        var offset = -curIndex * movement + moveSpace;
+                        sSlideObj.css({'-webkit-transform': translateStr(offset), '-webkit-transition':'ms linear'});
+                        return false;
+                    } else {
+                        return true;
+                    }
                 },
-                end: function(e){
+                end: function(e) {
+                    if (!isMoving) return true;
                     var oldIndex = curIndex;
                     if (moveSpace < -minMove) { // move down
                         flipPage(1);
@@ -97,18 +109,20 @@
                         if (curIndex != oldIndex && curIndex >= 0 && curIndex < slidesLen) {
                             $(".page").find(".animated").removeClass("in");
                             $(".page").eq(curIndex).find(".animated").addClass("in");
-                        }
-                        // Hide arrows
-                        if (arrow && curIndex == slidesLen - 1) {
-                            $('.sslide-wrapper .arrow.down').hide();
-                            $('.sslide-wrapper .arrow.right').hide();
-                        } else if (arrow && curIndex == 0) {
-                            $('.sslide-wrapper .arrow.left ').hide();
+                            // Hide arrows
+                            if (arrow && curIndex == slidesLen - 1) {
+                                $('.sslide-wrapper .arrow.down').hide();
+                                $('.sslide-wrapper .arrow.right').hide();
+                            } else if (arrow && curIndex == 0) {
+                                $('.sslide-wrapper .arrow.left ').hide();
+                            }
                         }
                     }
                     offset = -curIndex * movement;
                     doTransform(sSlideObj, offset, moveSpeed);
                     moveSpace = 0;
+                    isMoving = false;
+                    return false;
                 }
             };
 
