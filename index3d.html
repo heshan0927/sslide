@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sSlide3d Demo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <script src="js/zepto.js" type="text/javascript"></script>
+    <script src="js/sSlide3d.js" type="text/javascript"></script>
+    <style>
+    .slide-wrap {
+        -webkit-perspective: 800px; perspective: 800px;
+        overflow: hidden;
+    }
+    #slideList {
+        position: relative;
+        -webkit-transform-style: preserve-3d; transform-style: preserve-3d;
+        -webkit-perspective: 800px; perspective: 800px;
+        backface-visibility: hidden;
+    }
+    .page {
+        position: absolute; visibility: hidden;
+        -webkit-transform-style: preserve-3d; transform-style: preserve-3d;
+        backface-visibility: hidden;
+        transform: translate3d(0,0,0);
+        font-size:30px;
+    }
+    .page_mid,.page_active { visibility: visible; z-index: 1; }
+    .page_prev.x { transform-origin: right 50% 0px; -webkit-transform-origin: right 50% 0px; }
+    .page_next.x { transform-origin: 0px 50% 0px;  -webkit-transform-origin: 0px 50% 0px; }
+    .page_prev { transform-origin: 50% bottom 0px; -webkit-transform-origin: 50% bottom 0px; }
+    .page_next { transform-origin: 50% 0px 0px;  -webkit-transform-origin: 50% 0px 0px; }
+
+    </style>
+</head>
+<body>
+<div class="slide-wrap">
+	<ul id="slideList">
+		<li class="page page1"><div class="animated">1</div><img src="img/9-qr.jpg" height="202" width="207" alt=""></li>
+        <li class="page page2"><div class="animated">2</div><img src="img/9-qr.jpg" height="202" width="207" alt=""></li>
+        <li class="page page3"><div class="animated">3</div></li>
+		<li class="page page4"><div class="animated">4</div></li>
+    </ul>
+</div>
+<script>
+$(function() {
+    $('#slideList').sSlide({
+        direction: 'Y',
+        loop: true
+    });
+
+
+    $(".page1").css('background-image', 'url(img/1.jpg)');
+    $(".page2").css('background-image', 'url(img/2.jpg)');
+    $(".page3").css('background-image', 'url(img/3.jpg)');
+    $(".page4").css('background-image', 'url(img/4.jpg)');
+});
+</script>
+</body>
+</html>

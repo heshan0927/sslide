@@ -21,7 +21,6 @@ select { -webkit-appearance: none; line-height: 24px; border-radius: 0; /* mobil
 
 
 .page {background-size:100% 100%;background-repeat:no-repeat;position: relative;width: 100%;}
-.up_arrow { z-index: 30;width: 40px; height: auto; position: absolute; left: 50%; margin-left: -20px;bottom: 5px; -webkit-transform: translate3d(0,0,0); -webkit-animation: up_arrow 1.5s ease-out infinite;}
 .arrow {
 	z-index: 30;
 	width: 40px;
@@ -40,7 +39,7 @@ select { -webkit-appearance: none; line-height: 24px; border-radius: 0; /* mobil
 }
 .arrow.down {
 	left: 50%;
-	bottom: 5%;
+	bottom: 1%;
 }
 .arrow.left {
 	left: 5%;
@@ -53,3 +52,5 @@ select { -webkit-appearance: none; line-height: 24px; border-radius: 0; /* mobil
 @-webkit-keyframes page_arrow {0% { -webkit-transform: translateY(0); opacity: 0.6; } 40% { -webkit-transform: translateY(-50%); opacity: 1;} 100% { -webkit-transform: translateY(0); opacity: 0; } }
 @keyframes page_arrow {0% { -webkit-transform: translateY(0); opacity: 0.6; } 40% { -webkit-transform: translateY(-50%); opacity: 1;} 100% { -webkit-transform: translateY(0); opacity: 0; } }
 .x {float: left;}
+
+.animated.in {color:red;font-size:40px;}
