@@ -15,17 +15,17 @@
 <body>
 <div>
 	<ul id="slideList">
-		<li class="page page1"><div class="animated">1</div><img src="img/9-qr.jpg" height="202" width="207" alt=""></li>
-        <li class="page page2"><div class="animated">2</div><img src="img/9-qr.jpg" height="202" width="207" alt=""></li>
-        <li class="page page3"><div class="animated">3</div></li>
-        <li class="page page4"><div class="animated">4</div></li>
+		<li class="page page1">1</li>
+        <li class="page page2">2</li>
+        <li class="page page3">3</li>
+		<li class="page page4">4</li>
     </ul>
 </div>
 <script>
 $(function() {
     $('#slideList').sSlide({
-        direction: 'X',
-        loop: false
+        direction: 'Y',
+        skipSelectors: ['canvas', 'a img']
     });
     $(".page1").css('background-image', 'url(img/1.jpg)');
     $(".page2").css('background-image', 'url(img/2.jpg)');
