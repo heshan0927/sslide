@@ -54,3 +54,22 @@ select { -webkit-appearance: none; line-height: 24px; border-radius: 0; /* mobil
 .x {float: left;}
 
 .animated.in {color:red;font-size:40px;}
+
+.sub-nav {
+	position: absolute;
+	right: 2%;
+	top: 38%;
+	width: 10px;
+	height: 100%;
+}
+.icon {
+	border-radius: 50%;
+	display: block;
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	margin: 3px 0;
+}
+.icon.active {
+	background: #f00;
+}

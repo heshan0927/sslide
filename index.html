@@ -15,17 +15,19 @@
 <body>
 <div>
 	<ul id="slideList">
-		<li class="page page1">1</li>
-        <li class="page page2">2</li>
-        <li class="page page3">3</li>
-		<li class="page page4">4</li>
+		<li class="page page1"><span class="animated">1</span></li>
+        <li class="page page2"><span class="animated">2</span></li>
+        <li class="page page3"><span class="animated">3</span></li>
+		<li class="page page4"><span class="animated">4</span></li>
     </ul>
 </div>
 <script>
 $(function() {
     $('#slideList').sSlide({
         direction: 'Y',
-        skipSelectors: ['canvas', 'a img']
+        loop: true,
+        subNav: true,
+        skipSelectors: ['canvas', 'a']
     });
     $(".page1").css('background-image', 'url(img/1.jpg)');
     $(".page2").css('background-image', 'url(img/2.jpg)');
