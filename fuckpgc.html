@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sSlide Demo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <script src="js/zepto.js" type="text/javascript"></script>
+</head>
+<body>
+<div>
+	<ul id="slideList">
+		<li class="page page1"><img src="img/1.jpg"></li>
+        <li class="page page2"><img src="img/2.jpg"><img src="img/2.jpg"></li>
+    </ul>
+</div>
+<script>
+    var pageHeight = document.documentElement.clientHeight;
+    $('#slideList,.page1').css('height', pageHeight);
+    $('#slideList').css('overflow', 'hidden')
+    var page1Move = 0,
+        page1MoveStart = 0;
+    $('.page1').bind('touchstart', function(e) {
+        page1MoveStart = e.touches[0].pageY;
+    });
+    $('.page1').bind('touchmove', function(e) {
+        e.preventDefault();
+        page1Move = e.touches[0].pageY - page1MoveStart;
+        $('.page2').css({'-webkit-transform': translateStr(page1Move), '-webkit-transition':'ms linear'});
+    });
+    $('.page1').bind('touchend', function(e) {
+        var len = page1Move < -100 ? -pageHeight : 0;
+        $('.page2').css({'-webkit-transform': translateStr(len), '-webkit-transition':'ms linear'});
+    })
+
+    var page2Move = 0,
+        page2MoveStart = 0,
+        page2Moved = 0;
+    $('.page2').bind('touchstart', function(e) {
+        page2MoveStart = e.touches[0].pageY;
+    })
+    $('.page2').bind('touchmove', function(e) {
+        e.preventDefault();
+        page2Move = e.touches[0].pageY - page2MoveStart;
+        var offset = Math.max(-pageHeight + page2Move + page2Moved, -$('.page2').height());
+        $('.page2').css({'-webkit-transform': translateStr(offset), '-webkit-transition':'ms linear'});
+    });
+    $('.page2').bind('touchend', function(e) {
+        page2Moved += page2Move
+        var upOffset = pageHeight - $('.page2').height();
+        if (page2Moved > 100) {
+            $('.page2').css({'-webkit-transform': translateStr(0), '-webkit-transition':'ms linear'});
+            page2Moved = 0;
+        } else if (page2Moved >= 0 && page2Moved <= 100) {
+            $('.page2').css({'-webkit-transform': translateStr(-pageHeight), '-webkit-transition':'ms linear'});
+            page2Moved = 0;
+        } else if (page2Moved <= upOffset) {
+            $('.page2').css({'-webkit-transform': translateStr(-$('.page2').height()), '-webkit-transition':'ms linear'});
+            page2Moved = -$('.page2').height() + pageHeight;
+        }
+    })
+
+    function translateStr(len) {
+        return 'translateY(' + len + 'px)';
+    }
+</script>
+</body>
+</html>
